@@ -1,6 +1,5 @@
 """Key functions for memoizing decorators."""
-
-__all__ = ("hashkey", "methodkey", "typedkey", "typedmethodkey")
+__all__ = 'hashkey', 'methodkey', 'typedkey', 'typedmethodkey'
 
 
 class _HashedTuple(tuple):
@@ -10,7 +9,6 @@ class _HashedTuple(tuple):
     library functools implementation.
 
     """
-
     __hashvalue = None
 
     def __hash__(self, hash=tuple.__hash__):
@@ -29,34 +27,24 @@ class _HashedTuple(tuple):
         return {}
 
 
-# used for separating keyword arguments; we do not use an object
-# instance here so identity is preserved when pickling/unpickling
-_kwmark = (_HashedTuple,)
+_kwmark = _HashedTuple,
 
 
 def hashkey(*args, **kwargs):
     """Return a cache key for the specified hashable arguments."""
-
-    if kwargs:
-        return _HashedTuple(args + sum(sorted(kwargs.items()), _kwmark))
-    else:
-        return _HashedTuple(args)
+    pass
 
 
 def methodkey(self, *args, **kwargs):
     """Return a cache key for use with cached methods."""
-    return hashkey(*args, **kwargs)
+    pass
 
 
 def typedkey(*args, **kwargs):
     """Return a typed cache key for the specified hashable arguments."""
-
-    key = hashkey(*args, **kwargs)
-    key += tuple(type(v) for v in args)
-    key += tuple(type(v) for _, v in sorted(kwargs.items()))
-    return key
+    pass
 
 
 def typedmethodkey(self, *args, **kwargs):
     """Return a typed cache key for use with cached methods."""
-    return typedkey(*args, **kwargs)
+    pass
