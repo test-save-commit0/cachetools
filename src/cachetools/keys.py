@@ -32,19 +32,29 @@ _kwmark = _HashedTuple,
 
 def hashkey(*args, **kwargs):
     """Return a cache key for the specified hashable arguments."""
-    pass
+    key = args
+    if kwargs:
+        key += (_kwmark,)
+        for item in kwargs.items():
+            key += item
+    return _HashedTuple(key)
 
 
 def methodkey(self, *args, **kwargs):
     """Return a cache key for use with cached methods."""
-    pass
+    return hashkey(self.__class__, *args, **kwargs)
 
 
 def typedkey(*args, **kwargs):
     """Return a typed cache key for the specified hashable arguments."""
-    pass
+    key = tuple(type(arg) for arg in args)
+    if kwargs:
+        key += (_kwmark,)
+        for item in kwargs.items():
+            key += (item[0], type(item[1]))
+    return _HashedTuple(key)
 
 
 def typedmethodkey(self, *args, **kwargs):
     """Return a typed cache key for use with cached methods."""
-    pass
+    return typedkey(self.__class__, *args, **kwargs)
